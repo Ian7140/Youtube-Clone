@@ -4,27 +4,39 @@ const PORT = 4000;
 
 const app = express();
 
-const handleHome = (req,res) => {
-  return res.send("Home");
-}
+const URL_Logger = (req, res, next) => {
+  console.log("Path:" , req.path);
+  next();
+};
 
-const handleLogin  = (req, res) => {
-  return res.send ("Login");
-}
+const Time_Logger = (req, res, next) => {
+  var date = new Date();
+  var year = date.getFullYear();
+  var month = date.getMonth();
+  var day = date.getDay();
+  console.log(`Time : ${date.getFullYear()}.${date.getMonth()}.${date.getDay()}`);
+  next();
+};
 
-const handleContact  = (req, res) => {
-  return res.send ("Contact");
-}
+const Security_Logger = (req, res) => {
+  if (req.http === 'https') {
+    console.log("Secure");
+  } else {
+    console.log("Insecure");
+  }
+};
 
-const handleAbout  = (req, res) => {
-  return res.send ("About");
-}
-app.get("/", handleHome);
-app.get("/login",handleLogin);
-app.get("/contact",handleContact);
-app.get("/about",handleAbout);
+const Protecter_Middleware = (req, res) => {
+  const url = req.URL_Logger;
+  if (URL_Logger === "/protected") {
+    return res.send("Not Allowed");
+  }
+};
 
-const handleListening = () => console.log("Server listening on port http://localhost:$PORT🚀");
+app.get("/", URL_Logger, Time_Logger, Security_Logger);
+app.use(Protecter_Middleware);
 
-app.listen(PORT , handleListening);
+const handleListening = () =>
+  console.log("Server listening on port http://localhost:$PORT🚀");
 
+app.listen(PORT, handleListening);
