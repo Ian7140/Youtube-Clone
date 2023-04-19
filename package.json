@@ -6,8 +6,8 @@
     "type": "git",
     "url": "git+https://github.com/Ian7140/Youtube-Clone.git"
   },
-  "scripts": {
-    "dev": "nodemon --exec babel-node src/server.js"
+  "scripts": { 
+    "dev": "nodemon --exec babel-node src/server.js" 
   },
   "author": "Ian",
   "license": "BKT",
@@ -25,3 +25,4 @@
     "nodemon": "^2.0.22"
   }
 }
+
